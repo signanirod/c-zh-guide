@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PG游戏 · 资料整理与内容索引</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(145deg, #ffe7d0 0%, #ffd5b0 45%, #fbc8a4 100%);
+            min-height: 100vh;
+            line-height: 1.7;
+            padding: 1.8rem 1.2rem;
+            color: #2c241e;
+        }
+
+        .page-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* 卡片网格 — 信息卡片式布局 */
+        .card-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        .card {
+            background: #fffffffa;
+            border-radius: 2.2rem;
+            box-shadow: 0 8px 28px rgba(130, 75, 40, 0.12), 0 2px 8px rgba(0,0,0,0.03);
+            backdrop-filter: blur(2px);
+            padding: 2rem 2.2rem;
+            transition: transform 0.2s ease, box-shadow 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 36px rgba(130, 75, 40, 0.16);
+        }
+
+        /* hero 主视觉卡片 */
+        .hero-card {
+            background: linear-gradient(135deg, #fff4ea, #ffffff);
+            text-align: center;
+            padding: 2.8rem 2.2rem;
+            border-bottom: 1px solid #f2dac8;
+        }
+
+        .hero-card h1 {
+            font-size: 2.6rem;
+            font-weight: 620;
+            letter-spacing: -0.02em;
+            color: #4f2e1d;
+            margin-bottom: 0.6rem;
+        }
+
+        .hero-card .sub {
+            font-size: 1.05rem;
+            color: #6f4e39;
+            background: rgba(255,215,185,0.3);
+            display: inline-block;
+            padding: 0.3rem 1.4rem;
+            border-radius: 40px;
+            font-weight: 460;
+        }
+
+        .hero-card p {
+            max-width: 700px;
+            margin: 1.5rem auto 0.2rem;
+            font-size: 1rem;
+            color: #3f2c20;
+        }
+
+        /* 用途卡片 — 两列布局 */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+        }
+
+        .usage-item {
+            background: #fcf6f0;
+            border-radius: 1.8rem;
+            padding: 1.6rem 1.8rem;
+            border-left: 4px solid #e5aa7a;
+        }
+
+        .usage-item h3 {
+            font-size: 1.2rem;
+            font-weight: 570;
+            color: #5b3824;
+            margin-bottom: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .usage-item h3::before {
+            content: "📋";
+            font-size: 1.3rem;
+            margin-right: 0.2rem;
+        }
+
+        .usage-item p, .usage-item ul {
+            font-size: 0.95rem;
+            color: #3c2b20;
+        }
+
+        .usage-item ul {
+            list-style: none;
+            padding-left: 0.2rem;
+        }
+
+        .usage-item li {
+            margin-bottom: 0.4rem;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .usage-item li::before {
+            content: "·";
+            position: absolute;
+            left: 0;
+            color: #c78553;
+            font-weight: bold;
+        }
+
+        /* 适合人群卡片 */
+        .audience-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem 1.2rem;
+            margin: 1rem 0 0.2rem;
+        }
+
+        .audience-tag {
+            background: #f0e2d4;
+            border-radius: 40px;
+            padding: 0.4rem 1.3rem;
+            font-size: 0.95rem;
+            color: #3f2b1c;
+            border: 1px solid #e3cabb;
+            transition: background 0.2s;
+        }
+
+        .audience-tag:hover {
+            background: #e5cdb8;
+        }
+
+        .faq-summary {
+            margin-top: 0.8rem;
+        }
+
+        .faq-summary details {
+            margin-bottom: 0.5rem;
+            border-bottom: 1px dashed #dcc6b3;
+            padding-bottom: 0.3rem;
+        }
+
+        .faq-summary summary {
+            font-weight: 510;
+            cursor: pointer;
+            color: #4d3223;
+            padding: 0.3rem 0;
+        }
+
+        .faq-summary summary::marker {
+            color: #b98157;
+        }
+
+        .faq-summary p {
+            margin: 0.3rem 0 0.5rem 1rem;
+            font-size: 0.92rem;
+        }
+
+        /* 自然链接段落卡片 */
+        .link-card p {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .link-card a {
+            color: #954f27;
+            text-decoration: none;
+            font-weight: 510;
+            background: #fff1e6;
+            padding: 0.15rem 0.7rem;
+            border-radius: 30px;
+            border-bottom: 2px solid #d99e74;
+            transition: all 0.2s;
+            display: inline-block;
+            line-height: 1.6;
+        }
+
+        .link-card a:hover {
+            background: #f3d7c2;
+            border-bottom-color: #b26b3f;
+            color: #4f2c18;
+        }
+
+        .link-card .soft-note {
+            background: #f8ede4;
+            border-radius: 1.2rem;
+            padding: 0.8rem 1.4rem;
+            margin-top: 1.2rem;
+            font-size: 0.9rem;
+            color: #4a3528;
+            border-left: 4px solid #d9aa86;
+        }
+
+        /* 页脚 */
+        .footer-note {
+            text-align: center;
+            margin-top: 2.5rem;
+            font-size: 0.85rem;
+            color: #6e5646;
+            opacity: 0.8;
+            border-top: 1px solid #dcc0ab;
+            padding-top: 1.8rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 700px) {
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 1.4rem;
+            }
+            .card {
+                padding: 1.6rem 1.4rem;
+            }
+            .hero-card h1 {
+                font-size: 2rem;
+            }
+            body {
+                padding: 1rem 0.8rem;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .hero-card {
+                padding: 2rem 1.2rem;
+            }
+            .usage-item {
+                padding: 1.2rem;
+            }
+            .audience-tag {
+                font-size: 0.85rem;
+                padding: 0.2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="card-grid">
+
+        <!-- 主视觉卡片 : hero -->
+        <div class="card hero-card">
+            <h1>PG游戏 · 信息索引</h1>
+            <span class="sub">资料整理 / 用途说明 / 场景笔记</span>
+            <p>一份围绕 <strong>PG游戏</strong> 的内容汇编，从实际用途、受众特点到常见疑问，尝试用卡片形式梳理信息。这里不堆砌功能，只做平实记录。</p>
+        </div>
+
+        <!-- 用途卡片 (双列) -->
+        <div class="card">
+            <h2 style="font-weight:560; font-size:1.4rem; color:#4f2e1d; margin-bottom:0.3rem;">📌 常见用途</h2>
+            <p style="color:#5b3e2d; margin-bottom:1.4rem; font-size:0.95rem;">以下是根据公开资料整理的几种典型应用方向</p>
+            <div class="two-column">
+                <div class="usage-item">
+                    <h3>内容体验与休闲</h3>
+                    <ul>
+                        <li>作为日常放松和短时娱乐的选项</li>
+                        <li>浏览主题界面与互动反馈设计</li>
+                        <li>了解游戏化机制的呈现方式</li>
+                    </ul>
+                </div>
+                <div class="usage-item">
+                    <h3>资料收集与研究</h3>
+                    <ul>
+                        <li>整理不同品类的风格与交互逻辑</li>
+                        <li>对比视觉主题的更新与迭代</li>
+                        <li>记录行业内的常见机制与用户反馈</li>
+                    </ul>
+                </div>
+                <div class="usage-item">
+                    <h3>学习与观察</h3>
+                    <ul>
+                        <li>分析概率提示与界面引导设计</li>
+                        <li>观察新用户引导流程与信息架构</li>
+                        <li>了解移动端适配与响应式思路</li>
+                    </ul>
+                </div>
+                <div class="usage-item">
+                    <h3>社群交流素材</h3>
+                    <ul>
+                        <li>作为讨论话题的引用案例</li>
+                        <li>整理玩家常见的讨论焦点</li>
+                        <li>用于非商业性的内容分享与备忘</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 适合人群 卡片 -->
+        <div class="card">
+            <h2 style="font-weight:560; font-size:1.4rem; color:#4f2e1d; margin-bottom:0.1rem;">👥 适合人群</h2>
+            <p style="color:#5b3e2d; margin-bottom: 0.1rem; font-size:0.95rem;">这份索引面向以下读者，供参考</p>
+            <div class="audience-tags">
+                <span class="audience-tag">内容整理爱好者</span>
+                <span class="audience-tag">休闲体验用户</span>
+                <span class="audience-tag">交互设计学生</span>
+                <span class="audience-tag">行业观察者</span>
+                <span class="audience-tag">主题收藏者</span>
+                <span class="audience-tag">普通浏览者</span>
+            </div>
+            <p style="margin-top:1rem; font-size:0.93rem; color:#3f2b1e;">
+                无需特定背景，只要你愿意花几分钟了解 <strong>PG游戏</strong> 所涉及的界面、类别或讨论方向，这里的内容就能作为一个简单的出发点。
+            </p>
+        </div>
+
+        <!-- 自然链接段落 + FAQ摘要 -->
+        <div class="card link-card">
+            <h2 style="font-weight:560; font-size:1.4rem; color:#4f2e1d; margin-bottom:0.7rem;">🔗 相关索引与常见问题摘要</h2>
+            <p>
+                如果你希望进一步浏览 <a href="https://c-zh-pggame.com">PG游戏</a> 本身的内容主题、界面截图或机制说明，可以直接参考对应的资料站点。该页面目前以信息罗列为主，不包含任何引导性描述或操作建议。
+            </p>
+            <p>
+                在整理过程中，我们发现多数用户关心的是：如何快速了解某一款主题的类型？有没有简单的分类方式？以及界面文案通常包含哪些提示？这些问题的答案往往分散在不同页面中，因此我们将部分常见疑问摘要整理在下方。
+            </p>
+
+            <div class="faq-summary">
+                <details>
+                    <summary>❓ 什么是「主题索引」？</summary>
+                    <p>指按照名称、视觉风格或机制特点整理的内容列表，帮助快速定位感兴趣的方向。本页不提供具体列表，仅作概念说明。</p>
+                </details>
+                <details>
+                    <summary>❓ 这些内容来自哪里？</summary>
+                    <p>主要基于公开可见的界面截图、用户讨论以及行业媒体描述。整理时尽量保持客观，不加入主观评价。</p>
+                </details>
+                <details>
+                    <summary>❓ 是否推荐特定玩法或策略？</summary>
+                    <p>不推荐。本文档仅为资料索引，不提供任何形式的玩法指导、策略建议或效果承诺。</p>
+                </details>
+                <details>
+                    <summary>❓ 如何快速浏览更多内容？</summary>
+                    <p>你可以直接访问 <a href="https://c-zh-pggame.com">PG游戏</a> 的信息页面，那里聚合了更多主题与分类。请根据个人兴趣自行查阅。</p>
+                </details>
+            </div>
+
+            <div class="soft-note">
+                ⚡ 提示：本页所有内容均以资料整理为目的，不构成任何形式的推荐或保证。请自行判断信息适用性。
+            </div>
+        </div>
+
+    </div><!-- card-grid end -->
+
+    <div class="footer-note">
+        <span>整理于 2025 · 仅作为信息索引页面 · 内容保持平实与克制</span>
+    </div>
+</div><!-- page-wrapper end -->
+</body>
+</html>
